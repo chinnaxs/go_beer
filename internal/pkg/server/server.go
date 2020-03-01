@@ -97,6 +97,10 @@ func handlePutBeer(s *Server, w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 	}
+	if beer.Name != beerName {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 	_, err = s.db.Beer(beerName)
 	if err != nil {
 		if strings.HasPrefix(err.Error(), "no beer named") {
