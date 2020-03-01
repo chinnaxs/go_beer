@@ -29,8 +29,8 @@ func (m *MemoryDB) Beers() ([]beverage.Beer, error) {
 func (m *MemoryDB) Beer(name string) (beverage.Beer, error) {
 	m.mux.RLocker()
 	defer m.mux.RUnlock()
-	beer := m.beers[name]
-	if beer == nil {
+	beer, ok := m.beers[name]
+	if !ok {
 		return beverage.Beer{}, fmt.Errorf("no beer named %s exists", name)
 	}
 	return *beer, nil
